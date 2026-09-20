@@ -58,56 +58,91 @@ window.dispatchEvent(new CustomEvent('rk:logo', { detail: 'success' }));
 
 ## Деплой
 
-Сайт статический, пути относительные, поэтому подходит любой из вариантов.
-Сейчас он уже развёрнут на Cloudflare Pages: **https://rk-portfolio-gz6.pages.dev/**
+Сайт статический и лежит в репозитории **https://github.com/I-azex/portfolio**.
+Основной адрес: **https://i-azex.github.io/portfolio/**
 
-### Cloudflare Pages (текущий хостинг)
+### GitHub Pages (основной хостинг)
 
-Деплоить нужно из отдельной папки, иначе в публикацию попадут `tools/`, `README.md`
-и скриншоты — `.assetsignore` wrangler CLI не учитывает. Собирается это так:
+Pages уже включён: **Settings → Pages → Deploy from a branch → `main` / `root`**.
+Обновление сайта — обычный `git push` в `main`, GitHub пересоберёт его за минуту.
 
 ```powershell
-# 1. собрать чистую папку только с публичными файлами
+git add -A
+git commit -m "что изменилось"
+git push
+```
+
+Сайт живёт в подпапке `/portfolio/`, и это работает, потому что все пути к ассетам
+относительные (`assets/css/...`). Абсолютных путей, кроме мета-тегов, в проекте нет.
+
+### Подключение своего домена
+
+Когда домен куплен, порядок такой:
+
+1. **Создайте в корне репозитория файл `CNAME`** без расширения, с одной строкой —
+   вашим доменом:
+
+   ```
+   kozhuharev.ru
+   ```
+
+   Именно так GitHub понимает, какой домен обслуживать. `www.kozhuharev.ru`
+   сюда писать не нужно — редирект с `www` настраивается на шаге 3.
+
+2. **Пропишите DNS у регистратора.** Для домена второго уровня (`kozhuharev.ru`)
+   нужны A-записи на все четыре адреса GitHub:
+
+   | Тип | Имя | Значение |
+   |---|---|---|
+   | A | `@` | `185.199.108.153` |
+   | A | `@` | `185.199.109.153` |
+   | A | `@` | `185.199.110.153` |
+   | A | `@` | `185.199.111.153` |
+   | CNAME | `www` | `i-azex.github.io.` |
+
+   Для поддомена (`portfolio.kozhuharev.ru`) достаточно одной записи:
+   CNAME `portfolio` → `i-azex.github.io.`
+
+3. **Включите HTTPS.** После того как DNS разойдётся (от 10 минут до нескольких
+   часов), в **Settings → Pages** появится галочка **Enforce HTTPS** — поставьте её.
+   Сертификат GitHub выпустит сам и бесплатно.
+
+4. **Замените адрес в `index.html`** — 5 мест: `canonical`, `og:url`, `og:image`,
+   `twitter:image` и `"url"` в JSON-LD. Без этого поисковики и мессенджеры будут
+   ходить на старый адрес.
+
+Проверить, что домен подхватился, можно так:
+
+```powershell
+gh api repos/I-azex/portfolio/pages --jq '{url: .html_url, cname: .cname, https: .https_enforced, status: .status}'
+```
+
+### Cloudflare Pages (зеркало)
+
+Ранее сайт был развёрнут на Cloudflare Pages — `rk-portfolio-gz6.pages.dev`.
+Может пригодиться как резервная копия, если один из адресов окажется недоступен.
+
+Одна тонкость: **`.assetsignore` wrangler CLI не учитывает**, поэтому деплоить
+нужно из отдельной папки, иначе в публикацию попадут `tools/`, `README.md`
+и скриншоты:
+
+```powershell
 Remove-Item -Recurse -Force tools\.deploy -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force tools\.deploy\assets | Out-Null
 Copy-Item index.html tools\.deploy
 Copy-Item -Recurse assets\css tools\.deploy\assets\css
 Copy-Item -Recurse assets\js  tools\.deploy\assets\js
-
-# 2. залить
 npx wrangler pages deploy tools\.deploy --project-name rk-portfolio --commit-dirty=true
 ```
 
-Адрес проекта — `rk-portfolio-gz6.pages.dev`: Cloudflare добавил к имени проекта
-случайный суффикс `-gz6`, потому что короткое имя `rk-portfolio` уже занято
-другим пользователем. Это нормально и не мешает работе.
-
 **Важно про доступ из России.** Домен `pages.dev` у части российских провайдеров
 блокируется по SNI: TCP-соединение проходит, а TLS-рукопожатие с этим именем
-сбрасывается. Симптом — «не удаётся открыть сайт», хотя деплой успешен.
-Домен `workers.dev`, `github.io` и `netlify.app` при этом открываются.
-Поэтому для показа работ из РФ нужен либо VPN, либо свой домен, либо GitHub Pages.
-
-### GitHub Pages (рекомендуется как основной для РФ)
-
-```powershell
-git init
-git add .
-git commit -m "Портфолио: первая версия"
-git branch -M main
-git remote add origin https://github.com/I-azex/<репозиторий>.git
-git push -u origin main
-```
-
-Затем в репозитории: **Settings → Pages → Source: Deploy from a branch →
-Branch: `main` / `root`**. Сайт откроется на `https://i-azex.github.io/<репозиторий>/`.
-Если репозиторий назвать `I-azex.github.io`, адрес будет без подпапки.
-
-После смены адреса не забудьте заменить `rk-portfolio-gz6.pages.dev` в `index.html`
-(5 мест: `canonical`, `og:url`, `og:image`, `twitter:image`, JSON-LD).
+сбрасывается. Симптом — «не удаётся открыть сайт», хотя деплой успешен. Домены
+`github.io`, `workers.dev` и `netlify.app` при этом открываются, а `vercel.com`
+нет. Именно поэтому основной хостинг — GitHub Pages.
 
 **Netlify** — `netlify deploy --prod --dir .` либо drag & drop папки `.deploy`
-из шага 1 выше.
+из блока выше.
 
 Вне зависимости от площадки стоит добавить `assets/img/og-preview.png` (1200×630) —
 сейчас файла нет, и превью в мессенджерах не подтянется. См. `SETUP.md`.
