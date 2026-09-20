@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<style>body{margin:0;background:#0A0E14}svg{display:block}</style>
+</head><body>
+<!-- control: a symbol whose content exactly fills its viewBox with a solid rect -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="probe-sym" viewBox="0 0 100 100">
+      <rect x="0" y="0" width="100" height="100" fill="#FF0000"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- A: 200x200 box, same viewBox on the outer svg -->
+<svg id="a" width="200" height="200" viewBox="0 0 100 100" style="position:absolute;left:0;top:0">
+  <use href="#probe-sym"/>
+</svg>
+
+<!-- B: 200x200 box, no viewBox on the outer svg -->
+<svg id="b" width="200" height="200" style="position:absolute;left:220px;top:0">
+  <use href="#probe-sym"/>
+</svg>
+
+<!-- C: 200x200 box, no viewBox, explicit size on use -->
+<svg id="c" width="200" height="200" style="position:absolute;left:440px;top:0">
+  <use href="#probe-sym" width="200" height="200"/>
+</svg>
+
+<pre id="probe" style="position:absolute;top:230px;color:#0f0;font:12px monospace"></pre>
+<script>
+window.addEventListener('load', function () {
+  setTimeout(function () {
+    var out = {};
+    ['a','b','c'].forEach(function (id) {
+      var svg = document.getElementById(id);
+      var u = svg.querySelector('use');
+      out[id] = {
+        svgBox: [Math.round(svg.getBoundingClientRect().width), Math.round(svg.getBoundingClientRect().height)],
+        useBox: [Math.round(u.getBoundingClientRect().width), Math.round(u.getBoundingClientRect().height)]
+      };
+    });
+    document.getElementById('probe').textContent = JSON.stringify(out, null, 2);
+  }, 100);
+});
+</script>
+</body></html>

@@ -1,0 +1,104 @@
+@charset "UTF-8";
+/* ============================================================
+   RK.PORTFOLIO — 01 · DESIGN TOKENS
+   Owner: Кожухарёв Роман Александрович (261-338, ПОИКИ)
+   Palette is fixed by the brief; hierarchy is deliberate.
+   ============================================================ */
+
+:root {
+  /* --- surface -------------------------------------------------- */
+  --bg:            #0A0E14;
+  --bg-2:          #0B0F19;
+  --bg-3:          #0E1420;
+  --surface:       rgba(15, 21, 33, 0.55);
+  --surface-2:     rgba(20, 28, 43, 0.72);
+  --surface-3:     rgba(26, 36, 54, 0.9);
+
+  /* --- ink ------------------------------------------------------ */
+  --ink:           #FFFFFF;
+  --ink-2:         #8892A4;
+  --ink-3:         #5C6678;
+  --ink-4:         #3A4354;
+
+  /* --- neon ----------------------------------------------------- */
+  --cyan:          #00E5FF;
+  --cyan-bright:   #7DF2FF;
+  --cyan-deep:     #0093AB;
+  --green:         #39FF14;
+  --green-bright:  #A6FF92;
+  --green-deep:    #1FA30A;
+  --violet:        #A855F7;
+
+  /* --- rgb channels, for alpha composition ---------------------- */
+  --cyan-rgb:      0, 229, 255;
+  --green-rgb:     57, 255, 20;
+  --violet-rgb:    168, 85, 247;
+  --ink-rgb:       255, 255, 255;
+  --bg-rgb:        10, 14, 20;
+
+  /* --- lines ---------------------------------------------------- */
+  --line:          rgba(255, 255, 255, 0.075);
+  --line-2:        rgba(255, 255, 255, 0.13);
+  --line-cyan:     rgba(var(--cyan-rgb), 0.28);
+  --line-green:    rgba(var(--green-rgb), 0.28);
+
+  /* --- glow ----------------------------------------------------- */
+  --glow-cyan:     0 0 0 1px rgba(var(--cyan-rgb), 0.35), 0 0 28px -6px rgba(var(--cyan-rgb), 0.45);
+  --glow-green:    0 0 0 1px rgba(var(--green-rgb), 0.35), 0 0 28px -6px rgba(var(--green-rgb), 0.42);
+  --glow-soft:     0 0 40px -10px rgba(var(--cyan-rgb), 0.3);
+
+  /* --- elevation ------------------------------------------------- */
+  --lift-1:        0 1px 0 rgba(var(--ink-rgb), 0.04) inset, 0 12px 30px -18px rgba(0, 0, 0, 0.9);
+  --lift-2:        0 20px 60px -28px rgba(0, 0, 0, 0.95), 0 2px 0 rgba(var(--ink-rgb), 0.05) inset;
+
+  /* --- type ----------------------------------------------------- */
+  --font-ui:      "Montserrat", "Segoe UI", system-ui, sans-serif;
+  --font-body:    "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --fs-hero:      clamp(2.6rem, 8.2vw, 5.6rem);
+  --fs-h2:        clamp(1.85rem, 4.3vw, 3rem);
+  --fs-h3:        clamp(1.12rem, 2vw, 1.4rem);
+  --fs-lead:      clamp(1rem, 1.55vw, 1.185rem);
+  --fs-body:      clamp(0.95rem, 1.05vw, 1.02rem);
+  --fs-sm:        0.875rem;
+  --fs-xs:        0.72rem;
+  --fs-2xs:       0.64rem;
+
+  /* --- rhythm --------------------------------------------------- */
+  --rail:         clamp(1.15rem, 4.4vw, 2.6rem);
+  --shell:        1220px;
+  --section-y:    clamp(5rem, 12vh, 9rem);
+  --gap:          clamp(1.1rem, 2.2vw, 1.9rem);
+
+  /* --- shape ---------------------------------------------------- */
+  --r-sm:         6px;
+  --r-md:         11px;
+  --r-lg:         18px;
+  --r-xl:         26px;
+  --r-pill:       999px;
+
+  /* --- motion --------------------------------------------------- */
+  --e-out:        cubic-bezier(0.22, 0.61, 0.36, 1);
+  --e-in-out:     cubic-bezier(0.66, 0, 0.34, 1);
+  --e-spring:     cubic-bezier(0.34, 1.42, 0.5, 1);
+  --e-snap:       cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast:       160ms;
+  --t-mid:        320ms;
+  --t-slow:       620ms;
+
+  /* --- layers --------------------------------------------------- */
+  --z-bg:         0;
+  --z-spot:       1;
+  --z-content:    2;
+  --z-head:       50;
+  --z-cursor:     9000;
+  --z-boot:       10000;
+
+  /* --- live values (written by JS) ------------------------------ */
+  --mx:           50%;
+  --my:           30%;
+  --sx:           0px;
+  --sy:           0px;
+  --scroll-p:     0;
+}

@@ -1,0 +1,18 @@
+# Files and folders that must NOT be published.
+# Cloudflare Pages reads this the same way git reads .gitignore, and it keeps
+# the dev-only tooling out of the public deployment.
+#
+# Wrangler CLI honours this file on `wrangler pages deploy`.
+
+# dev-only tooling, probes and captured screenshots
+tools/
+
+# local files
+.wrangler/
+.git/
+.gitignore
+node_modules/
+
+# docs are for the repository, not for the public site
+README.md
+SETUP.md

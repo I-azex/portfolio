@@ -1,0 +1,371 @@
+@charset "UTF-8";
+/* ============================================================
+   03 · LOGO — the RK monogram and its five states
+   States are driven by [data-logo-state] on the .rk root:
+     assembly · idle · hover · loading · success
+   Parts travel along --dx/--dy (their offset from the core), so
+   the assembly reads as parts flying in, not just fading in.
+   ============================================================ */
+
+.rk {
+  --rk-cyan: var(--cyan);
+  --rk-green: var(--green);
+  --rk-ink: #cfe6ef;
+  --rk-glow: 1;
+
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: visible;
+  filter: drop-shadow(0 0 calc(9px * var(--rk-glow)) rgba(var(--cyan-rgb), 0.42));
+  transition: filter var(--t-slow) var(--e-out);
+}
+
+.rk__svg { width: 100%; height: 100%; overflow: visible; }
+
+/* --- register marks ------------------------------------------- */
+.rk__mark {
+  fill: none;
+  stroke: var(--rk-cyan);
+  stroke-width: 1.6;
+  transition:
+    transform 620ms var(--e-spring),
+    opacity var(--t-mid) var(--e-out),
+    stroke var(--t-mid) var(--e-out);
+}
+.rk__mark-dot { fill: var(--ink-2); opacity: 0; transition: opacity var(--t-slow) var(--e-out) 620ms; }
+
+/* --- roman: R -------------------------------------------------- */
+.rk__spine,
+.rk__arm {
+  fill: none;
+  stroke: var(--rk-cyan);
+  stroke-width: 9;
+  transition: transform 620ms var(--e-spring), opacity var(--t-mid) var(--e-out);
+}
+.rk__spine { stroke: var(--rk-cyan); }
+.rk__arm--up { stroke: var(--rk-cyan); }
+.rk__arm--dn { stroke: var(--rk-cyan); }
+
+/* --- brackets = < > ------------------------------------------- */
+.rk__bracket {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 620ms var(--e-spring), opacity var(--t-mid) var(--e-out);
+}
+.rk__bracket--l { stroke: var(--rk-cyan); }
+.rk__bracket--r { stroke: var(--rk-green); }
+
+/* --- gamepad keycaps ------------------------------------------ */
+.rk__key {
+  fill: none;
+  stroke: var(--rk-cyan);
+  stroke-width: 1.5;
+  transition: transform 620ms var(--e-spring), opacity var(--t-mid) var(--e-out), stroke var(--t-mid);
+}
+.rk__key-core { fill: var(--ink-2); opacity: 0.55; }
+
+/* --- core register -------------------------------------------- */
+.rk__core {
+  fill: rgba(var(--cyan-rgb), 0.14);
+  stroke: var(--rk-cyan);
+  stroke-width: 1.5;
+  transition: fill var(--t-mid) var(--e-out), stroke var(--t-mid) var(--e-out);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.rk__blip { fill: var(--rk-green); opacity: 0; }
+
+/* --- particle lattice ----------------------------------------- */
+.rk__lattice { fill: var(--rk-cyan); }
+.rk__lattice-dot {
+  opacity: 0.2;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.rk__lattice-dot[data-ring="0"] { opacity: 0.9; }
+.rk__lattice-dot[data-ring="1"] { opacity: 0.62; }
+.rk__lattice-dot[data-ring="2"] { opacity: 0.34; }
+
+/* --- loading arcs --------------------------------------------- */
+.rk__ring {
+  fill: none;
+  stroke: var(--rk-cyan);
+  stroke-linecap: round;
+  stroke-width: 2.4;
+  opacity: 0;
+  transform-box: view-box;
+  transform-origin: 80px 80px;
+}
+.rk__ring--b { stroke: var(--rk-green); stroke-width: 1.6; }
+
+/* --- success burst + flash ------------------------------------ */
+.rk__burst {
+  fill: none;
+  stroke: var(--rk-green);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-box: view-box;
+  transform-origin: 80px 80px;
+}
+.rk__flash { fill: #fff; opacity: 0; }
+
+/* --- frame + caption ------------------------------------------ */
+.rk__frame {
+  position: absolute;
+  inset: -6%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--e-out);
+}
+.rk__corner {
+  position: absolute;
+  width: 15px; height: 15px;
+  border: 1px solid var(--cyan);
+  opacity: 0.85;
+}
+.rk__corner:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.rk__corner:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+.rk__corner:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+.rk__corner:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+/* ============================================================
+   STATE · ASSEMBLY  (default on first paint)
+   ============================================================ */
+
+.rk[data-logo-state="assembly"] .rk__spine,
+.rk[data-logo-state="assembly"] .rk__arm,
+.rk[data-logo-state="assembly"] .rk__bracket,
+.rk[data-logo-state="assembly"] .rk__key,
+.rk[data-logo-state="assembly"] .rk__core { opacity: 0; }
+
+/* parts overshoot along their own offset, then settle */
+.rk[data-logo-state="assembly"] .rk__spine   { transform: translate(-26px, 0)      scaleY(0.5); transition-delay: 90ms; }
+.rk[data-logo-state="assembly"] .rk__arm--up { transform: translate(20px, -14px)   scale(0.6);   transition-delay: 170ms; }
+.rk[data-logo-state="assembly"] .rk__arm--dn { transform: translate(20px, 14px)    scale(0.6);   transition-delay: 210ms; }
+.rk[data-logo-state="assembly"] .rk__bracket--l { transform: translate(-34px, 0);  transition-delay: 300ms; }
+.rk[data-logo-state="assembly"] .rk__bracket--r { transform: translate(34px, 0);   transition-delay: 340ms; }
+.rk[data-logo-state="assembly"] .rk__key--tl { transform: translate(-22px, -22px); transition-delay: 380ms; }
+.rk[data-logo-state="assembly"] .rk__key--tr { transform: translate(22px, -22px);  transition-delay: 410ms; }
+.rk[data-logo-state="assembly"] .rk__key--bl { transform: translate(-22px, 22px);  transition-delay: 440ms; }
+.rk[data-logo-state="assembly"] .rk__key--br { transform: translate(22px, 22px);   transition-delay: 470ms; }
+
+.rk[data-logo-state="assembly"] .rk__lattice-dot {
+  transform: translate(var(--dx), var(--dy)) scale(0.2);
+  opacity: 0;
+  transition:
+    transform 700ms var(--e-spring) calc(240ms + var(--d) * 26ms),
+    opacity 360ms var(--e-out) calc(240ms + var(--d) * 26ms);
+}
+
+/* the settling frame: parts land, then the core resolves */
+.rk[data-logo-state="assembly"] .rk__core { transform: scale(0.2); transition-delay: 0ms; transition-duration: 520ms; }
+.rk[data-logo-state="assembly"] .rk__mark { transform: scale(0.7); opacity: 0; transition-delay: 120ms; }
+.rk[data-logo-state="assembly"] .rk__flash { animation: rkFlash 900ms var(--e-out) 60ms both; }
+
+/* ============================================================
+   STATE · IDLE
+   ============================================================ */
+
+.rk[data-logo-state="idle"] .rk__spine,
+.rk[data-logo-state="idle"] .rk__arm,
+.rk[data-logo-state="idle"] .rk__bracket,
+.rk[data-logo-state="idle"] .rk__key,
+.rk[data-logo-state="idle"] .rk__core,
+.rk[data-logo-state="idle"] .rk__mark { opacity: 1; transform: none; }
+
+.rk[data-logo-state="idle"] .rk__core {
+  animation: rkIdleCore 3.6s var(--e-in-out) infinite;
+}
+.rk[data-logo-state="idle"] .rk__spine {
+  animation: rkIdleBreath 3.6s var(--e-in-out) 120ms infinite;
+}
+.rk[data-logo-state="idle"] .rk__lattice-dot {
+  opacity: var(--dot-idle, 0.5);
+  animation: rkIdleDot 4.2s var(--e-in-out) calc(var(--d) * 150ms) infinite;
+  transition: transform 700ms var(--e-spring), opacity var(--t-slow) var(--e-out);
+}
+.rk[data-logo-state="idle"] .rk__lattice-dot[data-ring="0"] { --dot-idle: 0.95; }
+.rk[data-logo-state="idle"] .rk__lattice-dot[data-ring="1"] { --dot-idle: 0.6; }
+.rk[data-logo-state="idle"] .rk__lattice-dot[data-ring="2"] { --dot-idle: 0.34; }
+
+/* demo-reel: keycaps light in sequence */
+.rk[data-logo-state="idle"] .rk__key {
+  animation: rkKeyBlink 6s var(--e-in-out) infinite;
+}
+.rk[data-logo-state="idle"] .rk__key--tr { animation-delay: 0s; }
+.rk[data-logo-state="idle"] .rk__key--br { animation-delay: 0.5s; }
+.rk[data-logo-state="idle"] .rk__key--bl { animation-delay: 1s; }
+.rk[data-logo-state="idle"] .rk__key--tl { animation-delay: 1.5s; }
+.rk[data-logo-state="idle"] .rk__blip { animation: rkBlip 6s var(--e-in-out) infinite; }
+.rk[data-logo-state="idle"] .rk__blip:nth-of-type(2) { animation-delay: 0.5s; }
+.rk[data-logo-state="idle"] .rk__blip:nth-of-type(3) { animation-delay: 1s; }
+.rk[data-logo-state="idle"] .rk__blip:nth-of-type(4) { animation-delay: 1.5s; }
+
+/* ============================================================
+   STATE · HOVER — parts splay, core brightens, bracket glows
+   ============================================================ */
+
+.rk[data-logo-state="hover"] .rk__spine,
+.rk[data-logo-state="hover"] .rk__arm,
+.rk[data-logo-state="hover"] .rk__bracket,
+.rk[data-logo-state="hover"] .rk__key,
+.rk[data-logo-state="hover"] .rk__core,
+.rk[data-logo-state="hover"] .rk__mark { opacity: 1; }
+
+.rk[data-logo-state="hover"] { --rk-glow: 2.1; }
+.rk[data-logo-state="hover"] .rk__frame { opacity: 1; }
+
+.rk[data-logo-state="hover"] .rk__core {
+  transform: scale(1.22);
+  fill: rgba(var(--cyan-rgb), 0.34);
+  stroke: var(--rk-cyan);
+  animation: rkHoverCore 1.4s var(--e-in-out) infinite;
+}
+.rk[data-logo-state="hover"] .rk__mark { transform: scale(1.16); stroke: var(--cyan-bright); }
+.rk[data-logo-state="hover"] .rk__mark-dot { opacity: 1; }
+.rk[data-logo-state="hover"] .rk__spine { transform: translateX(-4px); }
+.rk[data-logo-state="hover"] .rk__arm--up { transform: translate(7px, -5px); }
+.rk[data-logo-state="hover"] .rk__arm--dn { transform: translate(7px, 5px); }
+.rk[data-logo-state="hover"] .rk__bracket--l { transform: translateX(-9px) scale(1.07); }
+.rk[data-logo-state="hover"] .rk__bracket--r { transform: translateX(9px) scale(1.07); }
+.rk[data-logo-state="hover"] .rk__key--tl { transform: translate(-4px, -4px); stroke: var(--cyan-bright); }
+.rk[data-logo-state="hover"] .rk__key--tr { transform: translate(4px, -4px); stroke: var(--cyan-bright); }
+.rk[data-logo-state="hover"] .rk__key--bl { transform: translate(-4px, 4px); stroke: var(--cyan-bright); }
+.rk[data-logo-state="hover"] .rk__key--br { transform: translate(4px, 4px); stroke: var(--cyan-bright); }
+.rk[data-logo-state="hover"] .rk__lattice-dot {
+  transform: scale(1.34);
+  opacity: 0.9;
+  transition: transform 420ms var(--e-spring) calc(var(--d) * 9ms), opacity var(--t-mid);
+}
+
+/* ============================================================
+   STATE · LOADING — arcs orbit the core
+   ============================================================ */
+
+.rk[data-logo-state="loading"] .rk__spine,
+.rk[data-logo-state="loading"] .rk__arm,
+.rk[data-logo-state="loading"] .rk__bracket,
+.rk[data-logo-state="loading"] .rk__key,
+.rk[data-logo-state="loading"] .rk__core,
+.rk[data-logo-state="loading"] .rk__mark { opacity: 1; transform: none; }
+.rk[data-logo-state="loading"] .rk__mark { opacity: 0.75; }
+.rk[data-logo-state="loading"] .rk__lattice-dot { opacity: 0.32; transform: none; }
+
+.rk[data-logo-state="loading"] .rk__ring { opacity: 1; animation: rkSpin 2.6s linear infinite; }
+.rk[data-logo-state="loading"] .rk__ring--b { animation: rkSpinBack 1.9s linear infinite; }
+.rk[data-logo-state="loading"] .rk__core { animation: rkIdleCore 1.5s var(--e-in-out) infinite; }
+.rk[data-logo-state="loading"] .rk__spine { transform: scaleY(0.9); opacity: 0.85; }
+
+/* ============================================================
+   STATE · SUCCESS — flash, punch, burst
+   ============================================================ */
+
+.rk[data-logo-state="success"] .rk__spine,
+.rk[data-logo-state="success"] .rk__arm,
+.rk[data-logo-state="success"] .rk__bracket,
+.rk[data-logo-state="success"] .rk__key,
+.rk[data-logo-state="success"] .rk__core,
+.rk[data-logo-state="success"] .rk__mark { opacity: 1; transform: none; }
+
+.rk[data-logo-state="success"] { --rk-glow: 3; }
+.rk[data-logo-state="success"] .rk__core {
+  fill: rgba(var(--green-rgb), 0.5);
+  stroke: var(--green);
+  animation: rkPunch 760ms var(--e-spring) both;
+}
+.rk[data-logo-state="success"] .rk__lattice-dot {
+  animation: rkDotPop 760ms var(--e-spring) both;
+  animation-delay: calc(var(--d) * 12ms);
+  opacity: 1;
+}
+.rk[data-logo-state="success"] .rk__bracket { stroke: var(--rk-green); }
+.rk[data-logo-state="success"] .rk__flash { animation: rkFlash 760ms var(--e-out) both; }
+.rk[data-logo-state="success"] .rk__burst { animation: rkBurst 900ms var(--e-out) both; }
+.rk[data-logo-state="success"] .rk__ring--b { opacity: 1; animation: rkBurstRing 900ms var(--e-out) both; }
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+
+@keyframes rkFlash {
+  0%   { opacity: 0; }
+  12%  { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+
+@keyframes rkIdleCore {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.075); }
+}
+
+@keyframes rkHoverCore {
+  0%, 100% { transform: scale(1.22); }
+  50%      { transform: scale(1.3); }
+}
+
+@keyframes rkIdleBreath {
+  0%, 100% { transform: scaleY(1); }
+  50%      { transform: scaleY(1.012); }
+}
+
+@keyframes rkIdleDot {
+  0%, 100% { transform: scale(1); opacity: var(--dot-idle, 0.5); }
+  50%      { transform: scale(1.32); opacity: 1; }
+}
+
+@keyframes rkKeyBlink {
+  0%, 62%, 100% { stroke: var(--rk-cyan); stroke-width: 1.5; }
+  8%, 16%       { stroke: var(--cyan-bright); stroke-width: 2.4; }
+}
+
+@keyframes rkBlip {
+  0%, 62%, 100% { opacity: 0; }
+  10%           { opacity: 1; }
+  22%           { opacity: 0; }
+}
+
+@keyframes rkSpin     { to { transform: rotate(360deg); } }
+@keyframes rkSpinBack { to { transform: rotate(-360deg); } }
+
+@keyframes rkPunch {
+  0%   { transform: scale(1); }
+  32%  { transform: scale(1.42); }
+  100% { transform: scale(1.12); }
+}
+
+@keyframes rkDotPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(2.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes rkBurst {
+  0%   { opacity: 0.9; transform: rotate(0deg) scale(0.55); stroke-width: 2.4; }
+  100% { opacity: 0; transform: rotate(48deg) scale(1.5); stroke-width: 0.4; }
+}
+
+@keyframes rkBurstRing {
+  0%   { transform: rotate(0deg) scale(0.6); opacity: 0.9; }
+  100% { transform: rotate(-30deg) scale(1.55); opacity: 0; }
+}
+
+/* ============================================================
+   LOGO SIZES
+   ============================================================ */
+
+.rk--hero  { width: clamp(190px, 24vw, 300px); }
+.rk--head  { width: 40px; filter: none; }
+.rk--head .rk__mark,
+.rk--head .rk__mark-dot,
+.rk--head .rk__lattice { display: none; }
+.rk--head .rk__spine,
+.rk--head .rk__arm { stroke-width: 11; }
+.rk--head .rk__bracket { stroke-width: 6.5; }
+.rk--head .rk__key rect { stroke-width: 2.2; }
+.rk--seal  { width: 92px; }
+.rk--seal .rk__mark,
+.rk--seal .rk__mark-dot { display: none; }

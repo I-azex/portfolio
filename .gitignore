@@ -1,0 +1,13 @@
+# local wrangler state (contains your Cloudflare account id)
+.wrangler/
+
+# staging folder used for clean Pages uploads
+tools/.deploy/
+
+# verification screenshots — local byproducts, ~6 MB, not worth versioning
+tools/shots/
+
+# OS noise
+Thumbs.db
+desktop.ini
+.DS_Store

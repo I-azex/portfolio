@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><style>
+body{margin:0;background:#0A0E14;display:flex;align-items:center;justify-content:center;min-height:100vh}
+.rk{width:620px;filter:none}
+.rk__mark,.rk__mark-dot{display:none}
+</style><link rel="stylesheet" href="../assets/css/03-logo.css"></head><body><svg viewBox="0 0 160 160" class="rk" data-logo-state="idle"><use href="#rk-glyph"></use></svg><svg  aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="rk-glyph" viewBox="0 0 160 160">
+      <!-- corner register marks -->
+      <g class="rk__mark">
+        <rect x="23" y="23" width="14" height="14" rx="4"/>
+        <rect x="123" y="23" width="14" height="14" rx="4"/>
+        <rect x="23" y="123" width="14" height="14" rx="4"/>
+        <rect x="123" y="123" width="14" height="14" rx="4"/>
+      </g>
+      <g class="rk__mark-dot">
+        <circle cx="30" cy="30" r="3.1"/>
+        <circle cx="130" cy="30" r="3.1"/>
+        <circle cx="30" cy="130" r="3.1"/>
+        <circle cx="130" cy="130" r="3.1"/>
+      </g>
+
+      <!-- keycaps -->
+      <g class="rk__keys">
+        <g class="rk__key rk__key--tl"><rect x="23" y="23" width="14" height="14" rx="4"/><circle class="rk__key-core" cx="30" cy="30" r="2.6"/><circle class="rk__blip" cx="30" cy="30" r="3.6"/></g>
+        <g class="rk__key rk__key--tr"><rect x="123" y="23" width="14" height="14" rx="4"/><circle class="rk__key-core" cx="130" cy="30" r="2.6"/><circle class="rk__blip" cx="130" cy="30" r="3.6"/></g>
+        <g class="rk__key rk__key--bl"><rect x="23" y="123" width="14" height="14" rx="4"/><circle class="rk__key-core" cx="30" cy="130" r="2.6"/><circle class="rk__blip" cx="30" cy="130" r="3.6"/></g>
+        <g class="rk__key rk__key--br"><rect x="123" y="123" width="14" height="14" rx="4"/><circle class="rk__key-core" cx="130" cy="130" r="2.6"/><circle class="rk__blip" cx="130" cy="130" r="3.6"/></g>
+      </g>
+
+      <!-- loading arcs -->
+      <g class="rk__rings">
+        <path class="rk__ring" transform="rotate(60 80 80)"   d="M76 80 A4 4 0 0 0 84 80 A4 4 0 0 0 76 80"/>
+        <path class="rk__ring" transform="rotate(240 80 80)"  d="M76 80 A4 4 0 0 0 84 80 A4 4 0 0 0 76 80"/>
+        <path class="rk__ring rk__ring--b" transform="rotate(150 80 80)" d="M76 80 A4 4 0 0 0 84 80 A4 4 0 0 0 76 80"/>
+      </g>
+
+      <!-- particle lattice: 16 cells of a 4x4 grid, core-out assembly order -->
+      <g class="rk__lattice">
+        <circle class="rk__lattice-dot" data-ring="0" cx="65.33" cy="65.33" r="2.6" style="--dx:-14.67px;--dy:-14.67px;--d:0"/>
+        <circle class="rk__lattice-dot" data-ring="0" cx="94.67" cy="65.33" r="2.6" style="--dx:14.67px;--dy:-14.67px;--d:1"/>
+        <circle class="rk__lattice-dot" data-ring="0" cx="65.33" cy="94.67" r="2.6" style="--dx:-14.67px;--dy:14.67px;--d:2"/>
+        <circle class="rk__lattice-dot" data-ring="0" cx="94.67" cy="94.67" r="2.6" style="--dx:14.67px;--dy:14.67px;--d:3"/>
+        <circle class="rk__lattice-dot" data-ring="2" cx="36"    cy="36"    r="2.6" style="--dx:-44px;--dy:-44px;--d:4"/>
+        <circle class="rk__lattice-dot" data-ring="1" cx="65.33" cy="36"    r="2.6" style="--dx:-14.67px;--dy:-44px;--d:5"/>
+        <circle class="rk__lattice-dot" data-ring="1" cx="94.67" cy="36"    r="2.6" style="--dx:14.67px;--dy:-44px;--d:6"/>
+        <circle class="rk__lattice-dot" data-ring="2" cx="124"   cy="36"    r="2.6" style="--dx:44px;--dy:-44px;--d:7"/>
+        <circle class="rk__lattice-dot" data-ring="2" cx="36"    cy="65.33" r="2.6" style="--dx:-44px;--dy:-14.67px;--d:8"/>
+        <circle class="rk__lattice-dot" data-ring="2" cx="124"   cy="65.33" r="2.6" style="--dx:44px;--dy:-14.67px;--d:9"/>
+        <circle class="rk__lattice-dot" data-ring="2" cx="36"    cy="94.67" r="2.6" style="--dx:-44px;--dy:14.67px;--d:10"/>
+        <circle class="rk__lattice-dot" data-ring="2" cx="124"   cy="94.67" r="2.6" style="--dx:44px;--dy:14.67px;--d:11"/>
+        <circle class="rk__lattice-dot" data-ring="2" cx="36"    cy="124"   r="2.6" style="--dx:-44px;--dy:44px;--d:12"/>
+        <circle class="rk__lattice-dot" data-ring="1" cx="65.33" cy="124"   r="2.6" style="--dx:-14.67px;--dy:44px;--d:13"/>
+        <circle class="rk__lattice-dot" data-ring="1" cx="94.67" cy="124"   r="2.6" style="--dx:14.67px;--dy:44px;--d:14"/>
+        <circle class="rk__lattice-dot" data-ring="2" cx="124"   cy="124"   r="2.6" style="--dx:44px;--dy:44px;--d:15"/>
+      </g>
+
+      <!-- monogram: R spine, K arms, < > brackets -->
+      <g class="rk__roman">
+        <path class="rk__spine"   d="M40 46 L40 114"/>
+        <path class="rk__arm rk__arm--up" d="M80 80 L116 50"/>
+        <path class="rk__arm rk__arm--dn" d="M80 80 L116 110"/>
+        <path class="rk__bracket rk__bracket--l" d="M16 58 L1 80 L16 102"/>
+        <path class="rk__bracket rk__bracket--r" d="M144 58 L159 80 L144 102"/>
+      </g>
+
+      <!-- core register -->
+      <rect class="rk__core" x="70" y="70" width="20" height="20" rx="4.5"/>
+
+      <!-- success burst + flash -->
+      <g class="rk__burst-set">
+        <line class="rk__burst" x1="80" y1="30" x2="80" y2="40" transform="rotate(0 80 80)"/>
+        <line class="rk__burst" x1="80" y1="30" x2="80" y2="40" transform="rotate(45 80 80)"/>
+        <line class="rk__burst" x1="80" y1="30" x2="80" y2="40" transform="rotate(90 80 80)"/>
+        <line class="rk__burst" x1="80" y1="30" x2="80" y2="40" transform="rotate(135 80 80)"/>
+        <line class="rk__burst" x1="80" y1="30" x2="80" y2="40" transform="rotate(180 80 80)"/>
+        <line class="rk__burst" x1="80" y1="30" x2="80" y2="40" transform="rotate(225 80 80)"/>
+        <line class="rk__burst" x1="80" y1="30" x2="80" y2="40" transform="rotate(270 80 80)"/>
+        <line class="rk__burst" x1="80" y1="30" x2="80" y2="40" transform="rotate(315 80 80)"/>
+        <circle class="rk__burst" cx="80" cy="80" r="50" stroke-dasharray="12 24"/>
+      </g>
+      <rect class="rk__flash" x="14" y="14" width="132" height="132" rx="18"/>
+    </symbol>
+  </defs>
+</svg></body></html>
