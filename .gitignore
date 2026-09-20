@@ -1,13 +1,16 @@
-# local wrangler state (contains your Cloudflare account id)
+# личные заметки по деплою и домену — не для публикации
+DEPLOY-NOTES.md
+
+# локальное состояние wrangler (содержит id аккаунта Cloudflare)
 .wrangler/
 
-# staging folder used for clean Pages uploads
+# папка для чистой выгрузки на Pages
 tools/.deploy/
 
-# verification screenshots — local byproducts, ~6 MB, not worth versioning
+# скриншоты проверки вёрстки — локальный побочный продукт, ~6 МБ
 tools/shots/
 
-# OS noise
+# служебные файлы ОС
 Thumbs.db
 desktop.ini
 .DS_Store
